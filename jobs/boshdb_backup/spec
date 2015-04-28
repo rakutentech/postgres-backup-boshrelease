@@ -1,0 +1,30 @@
+---
+name: boshdb_backup
+
+templates:
+  bin/db_backup.erb: bin/db_backup
+  bin/boshdb_backup_ctl.erb: bin/boshdb_backup_ctl 
+  config/backup-db.cron: config/backup-db.cron
+
+packages: []
+
+properties:
+  
+  boshdb_backup.keep_duration:
+    description: Number of last n backups to be stored on local disk
+    default: 3
+
+  postgres.user:
+    description: Username clients must use to access Postgres
+    default: bosh
+  postgres.password:
+    description: Password clients must use to access Postgres
+  postgres.listen_address:
+    description: IP address Postgres listens on
+    default: 0.0.0.0
+  postgres.port:
+    description: TCP port Postgres listens on
+    default: 5432
+  postgres.database:
+    description: Default Postgres database (it will be created during the startup process)
+    default: bosh

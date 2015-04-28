@@ -1,0 +1,26 @@
+---
+name: cfdb_backup
+
+templates:
+  bin/db_backup.erb: bin/db_backup
+  bin/cfdb_backup_ctl.erb: bin/cfdb_backup_ctl 
+  config/backup-db.cron: config/backup-db.cron
+
+packages: []
+
+properties:
+  
+  cfdb_backup.keep_duration:
+    description: Number of last n backups to be stored on local disk
+    default: 3
+
+  databases.db_scheme:
+    description: "The database scheme"
+  databases.port:
+    description: "The database port"
+  databases.address:
+    description: "The database address"
+  databases.databases:
+    description: "A list of databases and associated properties to create"
+  databases.roles:
+    description: "A list of database roles and associated properties to create"

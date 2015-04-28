@@ -1,0 +1,1 @@
+0 */4 * * * /var/vcap/jobs/boshdb_backup/bin/db_backup

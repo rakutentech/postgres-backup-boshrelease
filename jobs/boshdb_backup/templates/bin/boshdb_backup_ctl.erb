@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -e
+set -u
+
+STORE_DIR=/var/vcap/store
+JOB_DIR=/var/vcap/jobs/boshdb_backup
+RUN_DIR=/var/vcap/sys/run/boshdb_backup
+LOG_DIR=/var/vcap/sys/log/boshdb_backup
+PACKAGE_DIR=/var/vcap/packages/boshdb_backup
+BACKUP_DIR=$STORE_DIR/postgres/pg_dumps
+PIDFILE=$RUN_DIR/boshdb_backup.pid
+
+ensure_dir() {
+     DIR=$1
+     if [ ! -d "${DIR}" ] ; then
+         mkdir -p "${DIR}"
+	 chown vcap:vcap "${DIR}"
+	 chmod 755 "${DIR}"
+      fi
+      }
+
+ensure_dirs() {
+  ensure_dir "${BACKUP_DIR}"
+  ensure_dir "${RUN_DIR}"
+  }
+
+case $1 in
+  start)
+
+   ensure_dirs
+   echo $$ > $PIDFILE
+   chown vcap:vcap $PIDFILE
+
+   (crontab -l | sed /boshdb_backup/d; cat /var/vcap/jobs/boshdb_backup/config/backup-db.cron) | sed /^$/d | crontab 
+
+   ;;
+
+   stop)
+
+   rm -f $PIDFILE
+   
+   ;;
+
+   *) 
+
+   echo "usage boshdb_backup_ctl {start|stop}"
+   exit 1
+   ;;
+   
+esac
+

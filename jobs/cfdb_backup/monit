@@ -1,0 +1,3 @@
+check file cfdb_backup with path /var/vcap/sys/run/cfdb_backup/cfdb_backup.pid
+      if does not exist then exec "/var/vcap/jobs/cfdb_backup/bin/cfdb_backup_ctl start"
+  group vcap

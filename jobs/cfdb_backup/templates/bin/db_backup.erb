@@ -1,0 +1,67 @@
+#!/bin/bash
+PATH=/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/vcap/packages/postgres/bin
+
+set -e
+set -u
+
+STORE_DIR=/var/vcap/store
+RUN_DIR=/var/vcap/sys/run/cfdb_backup
+BACKUP_DIR=$STORE_DIR/postgres/pg_dumps
+PIDFILE=$RUN_DIR/cfdb_backup.pid
+DIRNAME=$(date +"%Y-%m-%d_%H%M")
+TARGET="$BACKUP_DIR/$DIRNAME"
+LOGGER_TAG="backupagent"
+KEEP_DURATION=<%= p( "cfdb_backup.keep_duration" ) %>
+
+DB=()
+<% p("databases.databases", []).each_with_index do |db,i| %>
+	DB[<%= i %>]=<%= db["name"] %>
+<% end %>
+
+# logging
+log () {
+  level=$1
+  msg=$2
+  T=$(date +"%Y-%m-%d %H:%M:%S")
+  logger -t "$LOGGER_TAG" -p user.$level "[$T] $msg"
+}
+
+# Backup up block
+
+mkdir $TARGET
+
+
+   <% p("databases.roles", []).each_with_index do |role,index| %>
+	   log "notice" "Starting ${DB[<%= index%>]} DB backup by pg_dump"
+	
+	   OUT=$(pg_dump --format=t --username=<%= role["name"]%> --port=<%= p("databases.port") %> -f $TARGET/${DB[<%= index%>]}.dump ${DB[<%= index%>]} 2>&1)
+
+        RET=$?
+	if [ $RET -ne 0 ] ; then
+	  log "error" "$OUT"
+	  exit $RET
+	fi
+
+	log "notice" " ${DB[<%= index %>]} Backup created on $TARGET"
+   <% end %>
+   
+
+# Get backups
+
+BACKUPS=($(ls -tl $BACKUP_DIR | grep "^d" | awk '{print $9}'))
+
+KEEP_SIZE=`expr $KEEP_DURATION - 1`
+for (( i = 0; i < ${#BACKUPS[@]}; i++ ))
+do
+  BACKUP=${BACKUPS[$i]}
+  if [ $i -le $KEEP_SIZE ]; then
+    log "notice" "Keep backup $BACKUP_DIR/$BACKUP"
+  else
+    log "notice" "Delete old backup: $BACKUP_DIR/$BACKUP"
+    rm -fr $BACKUP_DIR/$BACKUP
+  fi
+done
+
+log "notice" "Backup task completed."
+
+
