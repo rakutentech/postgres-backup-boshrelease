@@ -1,1 +1,1 @@
-0 */4 * * * /var/vcap/jobs/cfdb_backup/bin/db_backup
+0 */<%= p("cfdb_backup.cron_duration") %> * * * /var/vcap/jobs/cfdb_backup/bin/db_backup

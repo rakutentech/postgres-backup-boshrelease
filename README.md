@@ -49,7 +49,8 @@ For Bosh postgres :
 ```yaml
 properties:
   boshdb_backup:
-    keep_duration: 5 
+    keep_duration: 5
+    cron_duration: 4 
 ```
 For CF postgres:
 
@@ -57,9 +58,10 @@ For CF postgres:
 properties:
   cfdb_backup:
     keep_duration: 5
+    cron_duration: 4
 ```
 
 keep duration in n number of recent backups which you want to keep on local disk.
-
+Cron duration is the hour cycle for backup cronjob
 # Author
 [Ronak Banka]

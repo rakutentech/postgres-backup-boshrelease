@@ -13,6 +13,9 @@ properties:
   cfdb_backup.keep_duration:
     description: Number of last n backups to be stored on local disk
     default: 3
+  cfdb_backup.cron_duration:
+    description: Number of Hours on which backup should be done
+    default: 4
 
   databases.db_scheme:
     description: "The database scheme"
