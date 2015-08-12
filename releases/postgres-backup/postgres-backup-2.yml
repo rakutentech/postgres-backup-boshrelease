@@ -1,0 +1,15 @@
+---
+packages: []
+jobs:
+- name: boshdb_backup
+  version: 9405f545bea82d3b5229b6298925af5ba8aaa597
+  fingerprint: 9405f545bea82d3b5229b6298925af5ba8aaa597
+  sha1: 6933a88abab4de256c8576d9f7e68d3325e8b986
+- name: cfdb_backup
+  version: 50b332ca7a16e55836a2011010c3563980633870
+  fingerprint: 50b332ca7a16e55836a2011010c3563980633870
+  sha1: 5e26a4082cd5db6c91f723ed43c5ab62e0993900
+commit_hash: 77dd4e7f
+uncommitted_changes: true
+name: postgres-backup
+version: '2'
