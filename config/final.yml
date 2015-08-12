@@ -1,0 +1,7 @@
+---
+blobstore:
+  provider: s3
+  options:
+    bucket_name: postgres-backup-boshrelease
+
+final_name: postgres-backup

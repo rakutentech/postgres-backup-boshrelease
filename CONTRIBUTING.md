@@ -10,8 +10,7 @@ Adding features or fixing bugs yourself and contributing your code.
 
 Follow these steps to make a contribution to any of our open source repositories:
 
-1. Ensure that you have completed our CLA Agreement for
-  XXXX need to fill out
+1. Ensure that you have completed our CLA Agreement for Rakuten,Inc.
 
 1. Set your name and email (these should match the information on your submitted CLA)
 

@@ -64,4 +64,4 @@ properties:
 keep duration in n number of recent backups which you want to keep on local disk.
 Cron duration is the hour cycle for backup cronjob
 # Author
-[Ronak Banka]
+[Ronak Banka](https://github.com/ronakbanka), (Rakuten, Inc)
