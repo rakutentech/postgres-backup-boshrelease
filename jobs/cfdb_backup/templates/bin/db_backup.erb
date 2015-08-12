@@ -34,7 +34,7 @@ mkdir $TARGET
    <% p("databases.roles", []).each_with_index do |role,index| %>
 	   log "notice" "Starting ${DB[<%= index%>]} DB backup by pg_dump"
 	
-	   OUT=$(pg_dump --format=t --username=<%= role["name"]%> --port=<%= p("databases.port") %> -f $TARGET/${DB[<%= index%>]}.dump ${DB[<%= index%>]} 2>&1)
+	   OUT=$(pg_dump --username=<%= role["name"]%> --port=<%= p("databases.port") %> -f $TARGET/${DB[<%= index%>]}.dump ${DB[<%= index%>]} 2>&1)
 
         RET=$?
 	if [ $RET -ne 0 ] ; then
